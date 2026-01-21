@@ -6,12 +6,8 @@ const firstMessage = document.createElement('div');
 const rejectFirstMessage = document.createElement('div');
 
 const secondMessage = document.createElement('div');
-const thirdMessage = document.createElement('div');
 
-firstMessage.textContent = 'First promise was resolved';
-rejectFirstMessage.textContent = 'First promise was rejected';
-secondMessage.textContent = 'Second promise was resolved';
-thirdMessage.textContent = 'Third promise was resolved';
+const thirdMessage = document.createElement('div');
 
 firstMessage.dataset.qa = 'notification';
 rejectFirstMessage.dataset.qa = 'notification';
@@ -35,14 +31,15 @@ new Promise((resolve, reject) => {
 
   const timer = setTimeout(() => {
     body.removeEventListener('click', handler);
-    reject(new Error());
+    reject(new Error('First promise was rejected'));
   }, 3000);
 })
   .then((message) => {
     firstMessage.textContent = message;
     body.append(firstMessage);
   })
-  .catch(() => {
+  .catch((error) => {
+    rejectFirstMessage.textContent = error.message;
     body.append(rejectFirstMessage);
   });
 
