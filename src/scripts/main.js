@@ -28,12 +28,12 @@ let rightClick = false;
 
 new Promise((resolve, reject) => {
   function handler() {
-    clearTimeout();
+    clearTimeout(timer);
     resolve('First promise was resolved');
   }
   body.addEventListener('click', handler);
 
-  setTimeout(() => {
+  const timer = setTimeout(() => {
     body.removeEventListener('click', handler);
     reject(new Error());
   }, 3000);
