@@ -27,13 +27,14 @@ let leftClick = false;
 let rightClick = false;
 
 new Promise((resolve, reject) => {
-  function resolved(e) {
-    resolve();
+  function handler() {
+    clearTimeout();
+    resolve('First promise was resolved');
   }
-  body.addEventListener('click', resolved);
+  body.addEventListener('click', handler);
 
   setTimeout(() => {
-    body.removeEventListener('click', resolved);
+    body.removeEventListener('click', handler);
     reject(new Error());
   }, 3000);
 })
@@ -45,17 +46,19 @@ new Promise((resolve, reject) => {
   });
 
 new Promise((resolve) => {
-  body.addEventListener('mousedown', (e) => {
+  function handler(e) {
     if (e.button === 0 || e.button === 2) {
-      resolve();
+      body.removeEventListener('mousedown', handler);
+      resolve('Second promise was resolved');
     }
-  });
+  }
+  body.addEventListener('mousedown', handler);
 }).then(() => {
   body.append(secondMessage);
 });
 
 new Promise((resolve) => {
-  body.addEventListener('mousedown', (e) => {
+  function handler(e) {
     if (e.button === 0) {
       leftClick = true;
     }
@@ -65,9 +68,12 @@ new Promise((resolve) => {
     }
 
     if (leftClick && rightClick) {
-      resolve();
+      body.removeEventListener('mousedown', handler);
+      resolve('Third promise was resolved');
     }
-  });
+  }
+
+  body.addEventListener('mousedown', handler);
 }).then(() => {
   body.append(thirdMessage);
 });
