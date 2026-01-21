@@ -38,7 +38,8 @@ new Promise((resolve, reject) => {
     reject(new Error());
   }, 3000);
 })
-  .then(() => {
+  .then((message) => {
+    firstMessage.textContent = message;
     body.append(firstMessage);
   })
   .catch(() => {
@@ -53,7 +54,8 @@ new Promise((resolve) => {
     }
   }
   body.addEventListener('mousedown', handler);
-}).then(() => {
+}).then((message) => {
+  secondMessage.textContent = message;
   body.append(secondMessage);
 });
 
@@ -74,7 +76,8 @@ new Promise((resolve) => {
   }
 
   body.addEventListener('mousedown', handler);
-}).then(() => {
+}).then((message) => {
+  thirdMessage.textContent = message;
   body.append(thirdMessage);
 });
 
